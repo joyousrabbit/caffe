@@ -20,6 +20,7 @@ class LevelDBCursor : public Cursor {
   }
   ~LevelDBCursor() { delete iter_; }
   virtual void SeekToFirst() { iter_->SeekToFirst(); }
+  virtual void SeekByKey(string& key) {}
   virtual void Next() { iter_->Next(); }
   virtual string key() { return iter_->key().ToString(); }
   virtual string value() { return iter_->value().ToString(); }
