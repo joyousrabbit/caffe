@@ -18,7 +18,7 @@ RandomDataLayer<Dtype>::RandomDataLayer(const LayerParameter& param)
   db_->Open(param.data_param().source(), db::READ);
   cursor_.reset(db_->NewCursor());
 		
-  getAllKeys();
+  loadAllKeys();
 }
 
 template <typename Dtype>
@@ -27,7 +27,7 @@ RandomDataLayer<Dtype>::~RandomDataLayer() {
 }
 
 template <typename Dtype>
-void RandomDataLayer<Dtype>::getAllKeys(){
+void RandomDataLayer<Dtype>::loadAllKeys(){
 	keys_.clear();
 	cursor_->SeekToFirst();
 	while(cursor_->valid()){

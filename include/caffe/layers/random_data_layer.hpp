@@ -29,7 +29,7 @@ class RandomDataLayer : public BasePrefetchingDataLayer<Dtype> {
 
  protected:
   virtual void load_batch(Batch<Dtype>* batch);
-  void getAllKeys();
+  void loadAllKeys();
 
   shared_ptr<db::DB> db_;
   shared_ptr<db::Cursor> cursor_;
