@@ -126,8 +126,8 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 	int i = 0;
 	label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
 	label_data[(1 * label_blob->height() + i) * label_blob->width()] = cy/N;
-	label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::sqrt(width/N);
-	label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::sqrt(height/N);
+	label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::log(width)/std::log(N);
+	label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::log(height)/std::log(N);
 	label_data[(4 * label_blob->height() + i) * label_blob->width()] = 1;
 	
 //	std::cout<<label_data[0]<<","<<label_data[1]<<","<<label_data[2]<<","<<label_data[3]<<","<<label_data[4]<<std::endl;
