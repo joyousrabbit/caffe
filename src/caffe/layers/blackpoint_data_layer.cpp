@@ -102,6 +102,10 @@ void BlackpointDataLayer<Dtype>::load_batch(Batch<Dtype>* batch) {
 
 template<typename Dtype>
 void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<Dtype>* label_blob){	
+	static const int arr[] = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250};
+	std::vector<int> colors(arr, arr + sizeof(arr) / sizeof(arr[0]) );
+	std::random_shuffle(colors.begin(), colors.end());
+
 	int x1 = rand()%(cols_-10);
 	int y1 = rand()%(rows_-10);
 	int d = rand()%std::min(rows_-y1,cols_-x1);
@@ -115,8 +119,8 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 	Dtype height = y2-y1;
 	
 	//data
-	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U);
-	cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(255),-1);
+	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U)+colors[0];
+	cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(colors[1]),-1);
 	this->data_transformer_->Transform(aImg, data_blob);
 	//label
 	Dtype* label_data = label_blob->mutable_cpu_data();
