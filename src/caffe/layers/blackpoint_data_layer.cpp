@@ -116,13 +116,12 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 	
 	//data
 	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U);
+	cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(255),-1);
 	this->data_transformer_->Transform(aImg, data_blob);
 	//label
 	Dtype* label_data = label_blob->mutable_cpu_data();
 	caffe_set(label_blob->count(), Dtype(0), label_data);
 	Dtype N = std::max(aImg.rows,aImg.cols);
-	
-	cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(255),-1);
 	
 	int i = 0;
 	label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
