@@ -2088,7 +2088,7 @@ layer {
 
 layer {
   name: "loss"
-  type: "EuclideanLoss"
+  type: "BestmatchLoss"
   bottom: "ip2"
   bottom: "label"
   top: "loss"

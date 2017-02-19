@@ -5,11 +5,13 @@ caffe.set_mode_gpu();
 caffe.set_device(0);
 
 deployFile = 'blackpoint_googlenet_deploy.prototxt';
-modelFile = '/media/fu/Elements/nul/blackpoint_googlenet_iter_100000.caffemodel';
+modelFile = '/media/fu/Elements/nul/blackpoint_googlenet_iter_90345.caffemodel';
 net = caffe.Net(deployFile,modelFile,'test');
 
-img = zeros(160,160)+10;
-img = fillCircle(img,50,120,10,200);
+img = zeros(160,160)+0;
+img = fillCircle(img,100,50,20,210);
+img = fillCircle(img,40,80,20,200);
+% img = fillRectangle(img,50,50,60,60,200);
 caffeImg = toCaffeImg(img);
 
 tic

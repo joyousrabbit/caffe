@@ -10,7 +10,7 @@
 #include "caffe/layers/base_data_layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 
-#define MAX_OBJ_NUMS 1
+#define MAX_OBJ_NUMS 5
 #define MAX_OBJ_CLASSES 1
 
 namespace caffe {

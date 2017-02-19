@@ -1,16 +1,22 @@
-% addpath('/home/fu/workspace/deeplearning/caffe/matlab');
-% 
-% caffe.reset_all;
-% caffe.set_mode_gpu();
-% caffe.set_device(0);
+addpath('/home/fu/workspace/deeplearning/caffe/matlab');
 
-% solver = caffe.Solver('blackpoint_vgg_solver.prototxt');
+caffe.reset_all;
+caffe.set_mode_gpu();
+caffe.set_device(0);
+
+solver = caffe.Solver('blackpoint_vgg_solver.prototxt');
 solver.step(1);
 
 data = solver.net.blobs('data').get_data();
 label = solver.net.blobs('label').get_data();
 
-% figure(1);imshow(uint8(img))
+idx = 3;
+
+img = data(:,:,:,idx)';
+figure(1);imshow(uint8(img))
+
+l = label(:,:,:,idx);
+
 
 % img = imread('/media/fu/Elements/tmp/brainwash/brainwash_10_27_2014_images/00012000_640x480.png');
 % caffeImg = toCaffeImg(img);

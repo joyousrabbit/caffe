@@ -105,38 +105,44 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 	static const int arr[] = {0,10,20,30,40,50,60,70,80,90,100,110,120,130,140,150,160,170,180,190,200,210,220,230,240,250};
 	std::vector<int> colors(arr, arr + sizeof(arr) / sizeof(arr[0]) );
 	std::random_shuffle(colors.begin(), colors.end());
-
-	int x1 = rand()%(cols_-10);
-	int y1 = rand()%(rows_-10);
-	int d = rand()%std::min(rows_-y1,cols_-x1);
-	d = std::max(d,10);
-	int x2 = x1+d;
-	int y2 = y1+d;
 	
-	Dtype cx = (x1+x2)*0.5;
-	Dtype cy = (y1+y2)*0.5;
-	Dtype width = x2-x1;
-	Dtype height = y2-y1;
+	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U)+colors[0]; //canvas
 	
-	//data
-	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U)+colors[0];
-	cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(colors[1]),-1);
-	this->data_transformer_->Transform(aImg, data_blob);
-	//label
-	Dtype* label_data = label_blob->mutable_cpu_data();
+	Dtype* label_data = label_blob->mutable_cpu_data(); //labels
 	caffe_set(label_blob->count(), Dtype(0), label_data);
-	Dtype N = std::max(aImg.rows,aImg.cols);
+	Dtype N = std::max(aImg.rows,aImg.cols);	
 	
-	int i = 0;
-	label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
-	label_data[(1 * label_blob->height() + i) * label_blob->width()] = cy/N;
-	label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::log(width)/std::log(N);
-	label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::log(height)/std::log(N);
-	label_data[(4 * label_blob->height() + i) * label_blob->width()] = 1;
+	const int circleNums = 2;
+	for(int i=0;i<circleNums;i++){
+		int x1 = rand()%(cols_-10);
+		int y1 = rand()%(rows_-10);
+		int d = rand()%std::min(rows_-y1,cols_-x1);
+		d = std::max(d,10);
+		int x2 = x1+d;
+		int y2 = y1+d;
+
+		Dtype cx = (x1+x2)*0.5;
+		Dtype cy = (y1+y2)*0.5;
+		Dtype width = x2-x1;
+		Dtype height = y2-y1;
+
+		//drawCircle
+		cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(colors[i+1]),-1);
+		
+		//label
+		label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
+		label_data[(1 * label_blob->height() + i) * label_blob->width()] = cy/N;
+		label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::log(width)/std::log(N);
+		label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::log(height)/std::log(N);
+		label_data[(4 * label_blob->height() + i) * label_blob->width()] = 1;
+	}
+	//data
+	this->data_transformer_->Transform(aImg, data_blob);
 	
 //	std::cout<<label_data[0]<<","<<label_data[1]<<","<<label_data[2]<<","<<label_data[3]<<","<<label_data[4]<<std::endl;
 //	cv::imshow("debug",aImg);
 //	cv::waitKey(10000);
+//	exit(0);
 }
 
 INSTANTIATE_CLASS(BlackpointDataLayer);
