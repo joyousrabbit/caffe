@@ -36,7 +36,6 @@ class BlackpointDataLayer : public BasePrefetchingDataLayer<Dtype> {
   };
   
   virtual void load_batch(Batch<Dtype>* batch);
-  void loadDatums(const std::string& idlFilePath);
   void GenerateDataLabel(Blob<Dtype>* transformed_data, Blob<Dtype>* transformed_label); 
   
   Blob<Dtype> transformed_label_;
