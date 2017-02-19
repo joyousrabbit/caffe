@@ -10,9 +10,6 @@
 #include "caffe/layers/base_data_layer.hpp"
 #include "caffe/proto/caffe.pb.h"
 
-#define MAX_OBJ_NUMS 5
-#define MAX_OBJ_CLASSES 1
-
 namespace caffe {
 
 template <typename Dtype>
@@ -37,6 +34,9 @@ class BlackpointDataLayer : public BasePrefetchingDataLayer<Dtype> {
   
   virtual void load_batch(Batch<Dtype>* batch);
   void GenerateDataLabel(Blob<Dtype>* transformed_data, Blob<Dtype>* transformed_label); 
+  
+  int MAX_OBJ_NUMS;
+  int MAX_OBJ_CLASSES;
   
   Blob<Dtype> transformed_label_;
   int rows_;

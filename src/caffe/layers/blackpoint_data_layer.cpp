@@ -17,6 +17,8 @@ namespace caffe {
 template <typename Dtype>
 BlackpointDataLayer<Dtype>::BlackpointDataLayer(const LayerParameter& param)
   : BasePrefetchingDataLayer<Dtype>(param){
+  MAX_OBJ_NUMS = 5;
+  MAX_OBJ_CLASSES = 1;
   rows_ = 160;
   cols_ = 160;
 }
