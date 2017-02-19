@@ -22,7 +22,7 @@ void BestmatchLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
   bestmatchBlob.CopyFrom(*bottom[0],false,true);
   //get number of valid labels	
   for(int n=0;n<bottom[1]->num();n++){
-	  std::cout<<bottom[0]->data_at(n,0,0,0)<<","<<bottom[0]->data_at(n,1,0,0)<<","<<bottom[0]->data_at(n,2,0,0)<<","<<bottom[0]->data_at(n,3,0,0)<<","<<bottom[0]->data_at(n,4,0,0)<<std::endl;
+//	  std::cout<<bottom[0]->data_at(n,0,0,0)<<","<<bottom[0]->data_at(n,1,0,0)<<","<<bottom[0]->data_at(n,2,0,0)<<","<<bottom[0]->data_at(n,3,0,0)<<","<<bottom[0]->data_at(n,4,0,0)<<std::endl;
 	  int bestMatch = -1;
 	  Dtype bestCost = 10000000;
 	  for(int h=0;h<bottom[1]->height();h++){
@@ -47,9 +47,9 @@ void BestmatchLossLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype>*>& bottom,
 			bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,c,0,0)] = bottom[1]->data_at(n,c,bestMatch,0);
 		}
 	  }
-	  std::cout<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,0,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,1,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,2,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,3,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,4,0,0)]<<std::endl;
-	  std::cout<<bestCost<<std::endl;
-	  std::cout<<std::endl;
+//	  std::cout<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,0,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,1,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,2,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,3,0,0)]<<","<<bestmatchBlob.mutable_cpu_data()[bestmatchBlob.offset(n,4,0,0)]<<std::endl;
+//	  std::cout<<bestCost<<std::endl;
+//	  std::cout<<std::endl;
   }
 	
   int count = bottom[0]->count();
