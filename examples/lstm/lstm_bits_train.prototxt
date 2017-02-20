@@ -1,0 +1,65 @@
+name: "lstm_bits_train"
+layer {
+  name: "Bits"
+  type: "BitsData"
+  top: "data"
+  top: "label"
+  data_param {
+    batch_size: 4
+  }
+}
+
+layer {
+  name: "cont"
+  type: "RecurrentCont"
+  bottom: "data"
+  top: "cont"
+}
+
+layer {
+  name: "lstm"
+  type: "LSTM"
+  bottom: "data"
+  bottom: "cont"
+  top: "lstm_h"
+  recurrent_param {
+  	num_output: 256
+	weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+  name: "ip2"
+  type: "InnerProduct"
+  bottom: "lstm_h"
+  top: "ip2"
+  param {
+    lr_mult: 1
+  }
+  param {
+    lr_mult: 2
+  }
+  inner_product_param {
+    num_output: 1
+	axis: 2
+    weight_filler {
+      type: "xavier"
+    }
+    bias_filler {
+      type: "constant"
+    }
+  }
+}
+
+layer {
+  name: "loss"
+  type: "EuclideanLoss"
+  bottom: "ip2"
+  bottom: "label"
+  top: "loss"
+}
