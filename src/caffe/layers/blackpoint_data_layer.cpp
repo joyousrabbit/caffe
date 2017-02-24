@@ -111,17 +111,26 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 	cv::Mat aImg = cv::Mat::zeros(rows_, cols_, CV_8U)+colors[0]; //canvas
 	
 	Dtype* label_data = label_blob->mutable_cpu_data(); //labels
-	caffe_set(label_blob->count(), Dtype(0), label_data);
+	caffe_set(label_blob->count(), Dtype(-1), label_data);
 	Dtype N = std::max(aImg.rows,aImg.cols);	
 	
 	const int circleNums = 2;
+	const int minD = 30;
 	for(int i=0;i<circleNums;i++){
-		int x1 = rand()%(cols_-10);
-		int y1 = rand()%(rows_-10);
-		int d = rand()%std::min(rows_-y1,cols_-x1);
-		d = std::max(d,10);
+		int x1 = rand()%(cols_-minD);
+		int y1 = rand()%(rows_-minD);
+		int d = 0;
+		while(d<minD){
+			d = rand()%std::min(rows_-y1,cols_-x1);
+		}
 		int x2 = x1+d;
 		int y2 = y1+d;
+		
+//		x1 = 24;
+//		y1 = 24;
+//		x2 = 56;
+//		y2 = 56;
+//		d = x2-x1;
 
 		Dtype cx = (x1+x2)*0.5;
 		Dtype cy = (y1+y2)*0.5;
@@ -132,10 +141,17 @@ void BlackpointDataLayer<Dtype>::GenerateDataLabel(Blob<Dtype>* data_blob, Blob<
 		cv::circle(aImg,cv::Point(cx,cy),d*0.5,cv::Scalar(colors[i+1]),-1);
 		
 		//label
-		label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
-		label_data[(1 * label_blob->height() + i) * label_blob->width()] = cy/N;
-		label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::log(width)/std::log(N);
-		label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::log(height)/std::log(N);
+//		label_data[(0 * label_blob->height() + i) * label_blob->width()] = cx/N;
+//		label_data[(1 * label_blob->height() + i) * label_blob->width()] = cy/N;
+//		label_data[(2 * label_blob->height() + i) * label_blob->width()] = std::log(width)/std::log(N);
+//		label_data[(3 * label_blob->height() + i) * label_blob->width()] = std::log(height)/std::log(N);
+//		label_data[(4 * label_blob->height() + i) * label_blob->width()] = 1;
+		
+		//label
+		label_data[(0 * label_blob->height() + i) * label_blob->width()] = x1*1.0/cols_;
+		label_data[(1 * label_blob->height() + i) * label_blob->width()] = y1*1.0/rows_;
+		label_data[(2 * label_blob->height() + i) * label_blob->width()] = x2*1.0/cols_;
+		label_data[(3 * label_blob->height() + i) * label_blob->width()] = y2*1.0/rows_;
 		label_data[(4 * label_blob->height() + i) * label_blob->width()] = 1;
 	}
 	//data
