@@ -273,7 +273,7 @@ void CvpppSegDataLayer<Dtype>::TransformDataLabel(Blob<Dtype>* data_blob, Blob<D
 	CHECK_GT(segImg.rows*segImg.cols,0)<<oriDatum.imgPath<<":"<<datum.boxes[ranObjInd].instanceID<<" ["<<x1<<","<<y1<<","<<x2<<","<<y2<<"]";
 	
 	cv::resize(segImg, segImg, cv::Size(cols_,rows_));
-	cv::resize(label,label,cv::Size(cols_,rows_));
+	cv::resize(label,label,cv::Size(cols_,rows_),0,0,cv::INTER_NEAREST);
 	
 	this->data_transformer_->Transform(segImg, data_blob);
 	this->data_transformer_->Transform(label, label_blob);

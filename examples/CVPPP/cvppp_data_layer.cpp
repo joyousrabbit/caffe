@@ -200,7 +200,7 @@ void CvpppDataLayer<Dtype>::TransformDataLabel(Blob<Dtype>* data_blob, Blob<Dtyp
 //	cv::waitKey(5000);
 
 	cv::resize(aImg, aImg, cv::Size(cols_,rows_));
-	cv::resize(memImg, memImg, cv::Size(cols_,rows_), cv::INTER_NEAREST);
+	cv::resize(memImg, memImg, cv::Size(cols_,rows_),0,0, cv::INTER_NEAREST);
 	memImg = memImg>100;
 	
 	std::vector<cv::Mat> channels;
