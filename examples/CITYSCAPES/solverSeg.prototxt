@@ -1,0 +1,23 @@
+train_net: "/home/fu/workspace/deeplearning/caffe-ssd/models/VGGNet/VOC0712/CITYSCAPE/trainSeg.prototxt"
+
+base_lr: 0.0000000001
+display: 100
+max_iter: 160000
+lr_policy: "step"
+gamma: 0.1
+momentum: 0.9
+weight_decay: 0.0005
+stepsize: 60000
+snapshot: 10000
+snapshot_prefix: "/home/fu/workspace/deeplearning/caffe-ssd/models/VGGNet/VOC0712/CITYSCAPE/seg_48x48"
+solver_mode: GPU
+device_id: 0
+debug_info: false
+snapshot_after_train: true
+test_initialization: false
+average_loss: 10
+iter_size: 1
+type: "SGD"
+eval_type: "detection"
+ap_version: "11point"
+
